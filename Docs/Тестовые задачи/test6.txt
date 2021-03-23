@@ -1,0 +1,27 @@
+Header (2)  7
+BgnLib (2)  121, 3, 19, 12, 1, 13, 121, 3, 19, 11, 58, 18
+   LibName (6)  'unnamed'
+   Units (5)  1.000000E-03, 1.000000E-09
+   BgnStr (2)  121, 3, 19, 11, 58, 18, 121, 3, 19, 11, 58, 18
+      StrName (6)  'noname'
+      Text (0)  
+         Layer (2)  4
+         TextType (2)  13476
+         Presentation (1)  0000
+         Width (3)  -16
+         StrAns (1)  0000
+         XY (3)  20880, 64180
+         String (6)  'Generated with the LayoutEditor (This message will NOT added in any commercial version of the LayoutEditor.)'
+      EndEl (0)  
+      Box (0)  
+         Layer (2)  4
+         BoxType (2)  0
+         XY (3)  66230, 64180, 134730, 64180, 134730, 51530, 66230, 51530, 66230, 64180
+      EndEl (0)  
+      Box (0)  
+         Layer (2)  3
+         BoxType (2)  0
+         XY (3)  20880, 51530, 86470, 51530, 86470, 24670, 20880, 24670, 20880, 51530
+      EndEl (0)  
+   EndStr (0)  
+EndLib (0)  
