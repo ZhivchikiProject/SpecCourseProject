@@ -33,7 +33,7 @@ namespace CORE
         {
             pol.push_back(x);
         }
-        pair<int,int> get(int i) const
+        const pair<int,int> & get(int i) const
         {
             if (i>=(int)size()||i<0)
             {
