@@ -4,75 +4,64 @@
 #include <fstream>
 using namespace std;
 
+void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
+{
+
+}
+void DLL_EXPORT PARSER::write_output(string &path, CORE::Polygons &res)
+{
+
+}
 /*void DLL_EXPORT PARSER::read_input()(string &path, Polygons &res)
 {
     string s, s1;
-
     //ifstream fin("file.txt");
     ifstream fin(path);
     int Layer, x, y;
-
     CORE::Polygons p3;
     CORE::Polygons p4;
-
     fin>>s;
-
     for(;;)
     {
         CORE::Polygon pol;
-
         while(s!="Box"){
             fin>>s;
         }
-
         while(s!="Layer"){
             fin>>s;
         }
-
         fin>>s;
         fin>>s;
-
         if(s=="3")
             Layer = 3;
         else if(s=="4")
             Layer = 4;
-
         while(s!="XY"){
             fin>>s;
         }
-
         fin>>s;
         fin>>s;
         fin>>s1;
-
         while (s != "EndEl")
         {
             x = stoi(s);
             y= stoi(s1);
             pair<int,int> p(x, y);
             pol.add(p);
-
             fin>>s;
             fin>>s1;
         }
-
         if(Layer == 3)
             p3.add(pol);
         else
             p4.add(pol);
-
-
         while ((s != "EndLib")&&(s!="Box"))
         {
             fin>>s;
         }
-
         if (s=="EndLib")
             break;
-
     }
-
-
     for (int i =0; i<p3.size(); i++)
     {
         CORE::Polygon ee = p3.get(i);
@@ -81,11 +70,8 @@ using namespace std;
             pair<int,int> r = ee.get(j);
             cout << r.first << "  "<< r.second << endl;
         }
-
         cout << endl;
-
     }
-
     for (int i =0; i<p4.size(); i++)
     {
         CORE::Polygon ee = p4.get(i);
@@ -94,18 +80,14 @@ using namespace std;
             pair<int,int> r = ee.get(j);
             cout << r.first << "  " << r.second << endl;
         }
-
         cout << endl;
-
     }
-
-
 }
 */
 void DLL_EXPORT PARSER::dll_load()
 {
 
-    cout << "PARSER_LOAD" << endl;
+    cout << "PARSER_LOAD" << endl;/*
     string s, s1;
 
     ifstream fin("file.txt");
@@ -170,7 +152,7 @@ void DLL_EXPORT PARSER::dll_load()
             break;
 
     }
-
+*/
     /*
     for (int i =0; i<p3.size(); i++)
     {
@@ -180,11 +162,8 @@ void DLL_EXPORT PARSER::dll_load()
             pair<int,int> r = ee.get(j);
             cout << r.first << "  "<< r.second << endl;
         }
-
         cout << endl;
-
     }
-
     for (int i =0; i<p4.size(); i++)
     {
         CORE::Polygon ee = p4.get(i);
@@ -193,13 +172,10 @@ void DLL_EXPORT PARSER::dll_load()
             pair<int,int> r = ee.get(j);
             cout << r.first << "  " << r.second << endl;
         }
-
         cout << endl;
-
     }
-
-    */
-    fin.close();
+    *//*
+    fin.close();*/
 }
 
 
