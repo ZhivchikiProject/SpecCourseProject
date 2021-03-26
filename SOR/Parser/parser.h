@@ -2,6 +2,7 @@
 #define __PARS_H__
 #include <windows.h>
 #include "..\Core\Core.h"
+#include "..\Logger\Logger.h"
 
 /*  To use this exported function of dll, include this header
  *  in your project.
