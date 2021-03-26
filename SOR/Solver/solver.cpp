@@ -6,6 +6,18 @@ void DLL_EXPORT SOLVER::dll_load()
 {
     cout<<"SOLVER_LOAD\n";
 }
+void DLL_EXPORT SOLVER::merge(CORE::Polygons &data1,CORE::Polygons &data2, CORE::Polygons &res)
+{
+
+}
+void DLL_EXPORT SOLVER::intersect(CORE::Polygons &data1,CORE::Polygons &data2, CORE::Polygons &res)
+{
+
+}
+void DLL_EXPORT SOLVER::subtract(CORE::Polygons &data1,CORE::Polygons &data2, CORE::Polygons &res)
+{
+
+}
 
 
 
