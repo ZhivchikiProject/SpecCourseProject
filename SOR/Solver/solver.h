@@ -2,6 +2,7 @@
 #define __SOL_H__
 #include <windows.h>
 #include "..\Core\core.h"
+#include "..\Logger\logger.h"
 /*  To use this exported function of dll, include this header
  *  in your project.
  */
