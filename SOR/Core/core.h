@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <vector>
 #include <assert.h>
+#include "..\Logger\logger.h"
 using namespace std;
 /*  To use this exported function of dll, include this header
  *  in your project.
@@ -24,7 +25,7 @@ namespace CORE
     private:
         vector<pair<int,int> > pol;
     public:
-        int size()
+        int size() const
         {
             return pol.size();
         }
@@ -32,7 +33,15 @@ namespace CORE
         {
             pol.push_back(x);
         }
-        pair<int,int> get(int i)
+        pair<int,int> get(int i) const
+        {
+            if (i>=(int)size()||i<0)
+            {
+                assert(0);
+            }
+            return pol[i];
+        }
+        const pair<int,int> & operator [](int i) const
         {
             if (i>=(int)size()||i<0)
             {
@@ -46,7 +55,7 @@ namespace CORE
     private:
         vector<Polygon> pol;
     public:
-        int size()
+        int size() const
         {
             return pol.size();
         }
@@ -54,7 +63,15 @@ namespace CORE
         {
             pol.push_back(x);
         }
-        Polygon get(int i)
+        const Polygon &get(int i)
+        {
+            if (i>=(int)size()||i<0)
+            {
+                assert(0);
+            }
+            return pol[i];
+        }
+        const Polygon & operator [](int i) const
         {
             if (i>=(int)size()||i<0)
             {
