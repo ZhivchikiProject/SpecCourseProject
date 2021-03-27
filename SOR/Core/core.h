@@ -33,7 +33,7 @@ namespace CORE
         {
             pol.push_back(x);
         }
-        const pair<int,int> & get(int i) const
+        pair<int,int> get(int i) const
         {
             if (i>=(int)size()||i<0)
             {
@@ -63,7 +63,7 @@ namespace CORE
         {
             pol.push_back(x);
         }
-        const Polygon &get(int i)
+        const Polygon& get(int i) const
         {
             if (i>=(int)size()||i<0)
             {
@@ -80,6 +80,24 @@ namespace CORE
             return pol[i];
         }
     };
+    bool operator !=(const Polygon &x,const Polygon &y)
+    {
+        if (x.size()!=y.size()) return 1;
+        for(int i=0;i<x.size();i++)
+        {
+            if (x[i]!=y[i]) return 1;
+        }
+        return 0;
+    }
+    bool operator !=(const Polygons &x,const Polygons &y)
+    {
+        if (x.size()!=y.size()) return 1;
+        for(int i=0;i<x.size();i++)
+        {
+            if (x[i]!=y[i]) return 1;
+        }
+        return 0;
+    }
 }
 
 
