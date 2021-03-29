@@ -1,6 +1,7 @@
 #ifndef __PARS_H__
 #define __PARS_H__
 #include <windows.h>
+#include <string>
 #include "..\Core\Core.h"
 #include "..\Logger\Logger.h"
 
@@ -17,8 +18,8 @@
 namespace PARSER
 {
     void DLL_EXPORT dll_load();
-    void DLL_EXPORT read_input(string &path, Polygons &res);
-    void DLL_EXPORT write_output(string &path, Polygons &res);
+    void DLL_EXPORT read_input(string &path, CORE::Polygons &res);
+    void DLL_EXPORT write_output(string &path, CORE::Polygons &res);
 }
 
 
