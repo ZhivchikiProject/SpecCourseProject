@@ -6,34 +6,29 @@ using namespace std;
 
 void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 {
-    string s, s1;
+    string x, y;
 
     ifstream fin(path);
-    int x, y;
+    int PolygonsCount, PointsCount;
 
-    fin>>s;
+    fin>>PolygonsCount;
 
-    for(;;)
+    for (int i=0;i<PolygonsCount;i++)
     {
+
         CORE::Polygon pol;
 
-        fin>>s;
-        fin>>s1;
+        fin>>x;
+        fin>>PointsCount;
 
-        while (s != "EndBox")
+        for (int j=0;j<PointsCount;j++)
         {
-            x = stoi(s);
-            y= stoi(s1);
-            pair<int,int> p(x, y);
+            fin>>x;
+            fin>>y;
+            pair<int,int> p(stoi(x), stoi(y));
             pol.add(p);
-
-            fin>>s;
-            fin>>s1;
         }
         res.add(pol);
-
-        if (fin.eof())
-            break;
     }
 
      fin.close();
@@ -43,17 +38,20 @@ void DLL_EXPORT PARSER::write_output(string &path, CORE::Polygons &res)
 {
     ofstream fout(path);
 
+    fout << res.size() << endl;
+
     for(int i=0;i<res.size();i++)
     {
-        fout << "Box    ";
+        fout << "Box    " << res.get(i).size() << " ";
 
         for (int j=0; j<res.get(i).size(); j++)
         {
             fout << res.get(i).get(j).first << ", " << res.get(i).get(j).second << "; ";
         }
 
-        fout << endl << "   EndBox" << endl;
+        fout << endl;
     }
+
 
      fout.close();
 }
