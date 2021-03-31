@@ -11,6 +11,7 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
     ifstream fin(path);
     int PolygonsCount, PointsCount;
 
+    fin>>x;
     fin>>PolygonsCount;
 
     for (int i=0;i<PolygonsCount;i++)
@@ -38,7 +39,7 @@ void DLL_EXPORT PARSER::write_output(string &path, CORE::Polygons &res)
 {
     ofstream fout(path);
 
-    fout << res.size() << endl;
+    fout << "Count  " << res.size() << endl;
 
     for(int i=0;i<res.size();i++)
     {
