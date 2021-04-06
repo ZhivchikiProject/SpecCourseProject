@@ -13,12 +13,12 @@ int main(int argc,char *argv[])
     SOLVER::dll_load();
     CORE::Polygons in_1,in_2,out_1;
     string path="C:/SOR/Tests/1.txt";
-//    if (argc<5)
-//    {
-//        ///logger
-//        assert(0);
-//    }
-//    string path=argv[1];
+    if (argc<5)
+    {
+        ///logger
+        assert(0);
+    }
+    path=argv[1];
     ifstream temp1(path.c_str());
     if (temp1.fail())
     {
@@ -26,9 +26,10 @@ int main(int argc,char *argv[])
         assert(0);
     }
     temp1.close();
-            ///logger
+        ///logger
+        cout<<"READ1"<<endl;
     PARSER::read_input(path,in_1);
-//    path=argv[2];
+    path=argv[2];
     ifstream temp2(path.c_str());
     if (temp2.fail())
     {
@@ -37,26 +38,30 @@ int main(int argc,char *argv[])
     }
     temp2.close();
             ///logger
+            cout<<"READ2"<<endl;
     PARSER::read_input(path,in_2);
     int op=0;
-//    if (strlen(argv[3])!=1)
-//    {
-//        ///logger
-//        assert(0);
-//    }
-//    op=argv[3][0]-'0';
+    if (strlen(argv[3])!=1)
+    {
+        ///logger
+        assert(0);
+    }
+    op=argv[3][0]-'0';
     switch(op)
     {
     case 0:
             ///logger
+            cout<<"merge"<<endl;
         SOLVER::merge(in_1,in_2,out_1);
         break;
     case 1:
             ///logger
+            cout<<"intersect"<<endl;
         SOLVER::intersect(in_1,in_2,out_1);
         break;
     case 2:
             ///logger
+            cout<<"subtract"<<endl;
         SOLVER::subtract(in_1,in_2,out_1);
         break;
     default:
@@ -66,7 +71,7 @@ int main(int argc,char *argv[])
     if (argc==6)
     {
         CORE::Polygons valid;
-//        path=argv[5];
+        path=argv[5];
         ifstream temp(path.c_str());
         if (temp.fail())
         {
@@ -86,15 +91,9 @@ int main(int argc,char *argv[])
             ///logger
         }
     }
-//    path=argv[4];
-    ifstream temp3(path.c_str());
-    if (temp3.fail())
-    {
-        ///logger
-        assert(0);
-    }
-    temp3.close();
+    path=argv[4];
             ///logger
+            cout<<"write"<<endl;
     PARSER::write_output(path,out_1);
     return 0;
 }
