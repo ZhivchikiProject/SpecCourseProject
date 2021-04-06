@@ -102,8 +102,6 @@ void DLL_EXPORT PARSER::dll_load()
 
 
 
-
-
 // a sample exported function
 void DLL_EXPORT SomeFunction(const LPCSTR sometext)
 {
