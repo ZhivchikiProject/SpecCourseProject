@@ -16,6 +16,9 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 
     for (int i=0;i<PolygonsCount;i++)
     {
+        
+        int minX, minY, minPos = 0;
+        vector<pair<int,int> > vect;
 
         CORE::Polygon pol;
 
@@ -27,8 +30,42 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
             fin>>x;
             fin>>y;
             pair<int,int> p(stoi(x), stoi(y));
-            pol.add(p);
+            vect.push_back(p);
         }
+
+        minX = vect[0].first;
+        minY = vect[0].second;
+
+        for (int j=0; j<PointsCount; j++)
+        {
+            if ((minX >= vect[j].first)&&(minY >= vect[j].second))
+            {
+                minX = vect[j].first;
+                minY = vect[j].second;
+                minPos = j;
+            }
+        }
+
+        if ((minX != vect[0].first)||(minY != vect[0].second))
+        {
+            for (int j=0; j<minPos; j++)
+            {
+                vect.erase(vect.begin());
+                vect.push_back(vect[0]);
+            }
+        }
+
+        if (vect[0].second < vect[1].second)
+        {
+            for (int j=0; j<PointsCount; j++)
+                pol.add(vect[j]);
+        }
+        else
+        {
+            for (int j=PointsCount-1; j>=0; j--)
+                pol.add(vect[j]);
+        }
+
         res.add(pol);
     }
 
@@ -52,7 +89,6 @@ void DLL_EXPORT PARSER::write_output(string &path, CORE::Polygons &res)
 
         fout << endl;
     }
-
 
      fout.close();
 }
