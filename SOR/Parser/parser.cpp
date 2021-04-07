@@ -38,7 +38,7 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 
         for (int j=0; j<PointsCount; j++)
         {
-            if ((minX >= vect[j].first)&&(minY >= vect[j].second))
+            if ((vect[j].first < minX)||((vect[j].first == minX)&&(vect[j].second < minY)))
             {
                 minX = vect[j].first;
                 minY = vect[j].second;
@@ -48,11 +48,9 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 
         if ((minX != vect[0].first)||(minY != vect[0].second))
         {
-            for (int j=0; j<minPos; j++)
-            {
-                vect.erase(vect.begin());
-                vect.push_back(vect[0]);
-            }
+            vect.erase(vect.begin());
+            rotate(vect.begin(),vect.begin()+minPos -1,vect.end());
+            vect.push_back(vect[0]);
         }
 
         if (vect[0].second < vect[1].second)
