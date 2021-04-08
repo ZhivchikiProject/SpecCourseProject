@@ -78,7 +78,7 @@ void DLL_EXPORT PARSER::write_output(string &path, CORE::Polygons &res)
 
     for(int i=0;i<res.size();i++)
     {
-        fout << "Box    " << res.get(i).size() << " ";
+        fout << "Boundary    " << res.get(i).size() << " ";
 
         for (int j=0; j<res.get(i).size(); j++)
         {
