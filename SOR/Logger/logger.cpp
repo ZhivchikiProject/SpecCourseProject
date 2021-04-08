@@ -7,7 +7,7 @@
 
 void DLL_EXPORT LOGGER::dll_load()
 {
-    cout<<"LOGGER_LOAD\n";
+    std::cout<<"LOGGER_LOAD\n";
 }
 
 void  DLL_EXPORT LOGGER::Logger::WriteLog(LogLevel logLevel, std::string message)
