@@ -11,12 +11,12 @@ int main(int argc,char *argv[])
     PARSER::dll_load();
     LOGGER::dll_load();
     SOLVER::dll_load();
+    LOGGER::Logger* logger = LOGGER::Logger::GetInstance();
     CORE::Polygons in_1,in_2,out_1;
     string path="C:/SOR/Tests/1.txt";
     if (argc<5)
     {
-        ///logger
-        assert(0);
+        logger->WriteLog(LOGGER::LogLevel::Error, "Not enough arguments");
     }
     path=argv[1];
     ifstream temp1(path.c_str());
