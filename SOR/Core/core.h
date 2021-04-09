@@ -37,7 +37,7 @@ namespace CORE
         {
             if (i>=(int)size()||i<0)
             {
-                assert(0);
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect index (get)");
             }
             return pol[i];
         }
@@ -45,7 +45,7 @@ namespace CORE
         {
             if (i>=(int)size()||i<0)
             {
-                assert(0);
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect index ([])");
             }
             return pol[i];
         }
@@ -67,7 +67,7 @@ namespace CORE
         {
             if (i>=(int)size()||i<0)
             {
-                assert(0);
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect index (get)");
             }
             return pol[i];
         }
@@ -75,7 +75,7 @@ namespace CORE
         {
             if (i>=(int)size()||i<0)
             {
-                assert(0);
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect index ([])");
             }
             return pol[i];
         }
