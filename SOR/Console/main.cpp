@@ -7,66 +7,52 @@
 using namespace std;
 int main(int argc,char *argv[])
 {
-    CORE::dll_load();
-    PARSER::dll_load();
-    LOGGER::dll_load();
-    SOLVER::dll_load();
-    LOGGER::Logger* logger = LOGGER::Logger::GetInstance();
     CORE::Polygons in_1,in_2,out_1;
-    string path="C:/SOR/Tests/1.txt";
+    string path;
     if (argc<5)
     {
-        logger->WriteLog(LOGGER::LogLevel::Error, "Not enough arguments");
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Not enough input data");
     }
     path=argv[1];
     ifstream temp1(path.c_str());
     if (temp1.fail())
     {
-        ///logger
-        assert(0);
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect path to first file");
     }
     temp1.close();
-        ///logger
-        cout<<"READ1"<<endl;
+    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Read first file");
     PARSER::read_input(path,in_1);
     path=argv[2];
     ifstream temp2(path.c_str());
     if (temp2.fail())
     {
-            ///logger
-        assert(0);
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect path to second file");
     }
     temp2.close();
-            ///logger
-            cout<<"READ2"<<endl;
+    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Read second file");
     PARSER::read_input(path,in_2);
     int op=0;
     if (strlen(argv[3])!=1)
     {
-        ///logger
-        assert(0);
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect operation");
     }
     op=argv[3][0]-'0';
     switch(op)
     {
     case 0:
-            ///logger
-            cout<<"merge"<<endl;
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Merge");
         SOLVER::merge(in_1,in_2,out_1);
         break;
     case 1:
-            ///logger
-            cout<<"intersect"<<endl;
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Intersect");
         SOLVER::intersect(in_1,in_2,out_1);
         break;
     case 2:
-            ///logger
-            cout<<"subtract"<<endl;
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Subtract");
         SOLVER::subtract(in_1,in_2,out_1);
         break;
     default:
-        assert(0);
-        break;
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect operation");
     }
     if (argc==6)
     {
@@ -75,25 +61,22 @@ int main(int argc,char *argv[])
         ifstream temp(path.c_str());
         if (temp.fail())
         {
-            ///logger
-            assert(0);
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect path to file with answer");
         }
         temp.close();
-            ///logger
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Read file with answer");
         PARSER::read_input(path,in_2);
         if (valid!=out_1)
         {
-            ///logger
-            assert(0);
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Wrong Answer");
         }
         else
         {
-            ///logger
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Accepted");
         }
     }
     path=argv[4];
-            ///logger
-            cout<<"write"<<endl;
+    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Write answer");
     PARSER::write_output(path,out_1);
     return 0;
 }
