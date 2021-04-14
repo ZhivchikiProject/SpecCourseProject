@@ -2,6 +2,8 @@
 #define __LOG_H__
 #include <windows.h>
 #include <fstream>
+#include <chrono>
+
 /*  To use this exported function of dll, include this header
  *  in your project.
  */
@@ -17,15 +19,20 @@ namespace LOGGER
     enum class LogLevel
     {
         Info,
+        Debug,
         Warning,
         Error
-        // DEBUG
     };
     class Logger {
-    protected:
+    private:
+        std::chrono::time_point<std::chrono::high_resolution_clock> time;
         Logger()
         {
-            std::ofstream logFile("Logfile.txt");
+            time = std::chrono::high_resolution_clock::now();
+            std::ofstream logFile("Logfile.txt", std::ios::app);
+            for (int i = 0; i < 60; i++)
+                logFile << "_";
+            logFile << "\n\n\nNew launch\n";
             logFile.close();
         }
 
@@ -35,6 +42,13 @@ namespace LOGGER
         static Logger* GetInstance();
         void DLL_EXPORT WriteLog(LogLevel logLevel, std::string message);
         void DLL_EXPORT ShowLog();
+        void ResetTimer() { time = std::chrono::high_resolution_clock::now(); }
+        void DLL_EXPORT GetTime(std::string message = "", bool writeToConsole = false, int unit = 0);
+        void ClearLogFile()
+        {
+            std::ofstream logFile("Logfile.txt");
+            logFile.close();
+        }
     };
     Logger* Logger::logger_ = nullptr;
     Logger* Logger::GetInstance()

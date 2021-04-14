@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <cassert>
+#include <chrono>
 //#undef NDEBUG                  // uncomment to enable asserts in release build
 
 void DLL_EXPORT LOGGER::dll_load()
@@ -17,6 +18,11 @@ void  DLL_EXPORT LOGGER::Logger::WriteLog(LogLevel logLevel, std::string message
     {
         logFile << message << "\n";
     }
+    if (logLevel == LogLevel::Debug)
+    {
+        logFile << message << "\n";
+        std::cout << message << "\n";
+    }
     if (logLevel == LogLevel::Warning)
     {
         logFile << "Warning: " << message << "\n";
@@ -29,7 +35,6 @@ void  DLL_EXPORT LOGGER::Logger::WriteLog(LogLevel logLevel, std::string message
         std::cerr << "Error: " << message << "\n";
         assert(0);
     }
-    //if (logLevel == LogLevel::DEBUG) {}
     logFile.close();
 }
 void DLL_EXPORT LOGGER::Logger::ShowLog()
@@ -48,6 +53,25 @@ void DLL_EXPORT LOGGER::Logger::ShowLog()
     else
         std::cout << "Log file doesn't exist\n";
 }
+
+ void DLL_EXPORT LOGGER::Logger::GetTime(std::string message, bool writeToConsole, int unit)
+        {
+            // writeToConsole = 0 - won't write in console, 1 - will write; unit = 1 - seconds, 0 - ms
+            auto timeDiff = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::high_resolution_clock::now() - time).count();
+            ResetTimer();
+            if (unit == 1)
+                timeDiff = timeDiff / 1000;
+            std::string tmp = message + "\n" + std::to_string(timeDiff);
+            if (unit == 1)
+                tmp += " s passed.\n";
+            else
+                tmp += " ms passed.\n";
+            LogLevel logLevel = LogLevel::Info;
+            if (writeToConsole)
+                logLevel = LogLevel::Debug;
+            WriteLog(logLevel, tmp);
+        }
 
 
 // a sample exported function
