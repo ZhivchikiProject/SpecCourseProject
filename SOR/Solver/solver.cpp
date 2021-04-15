@@ -16,7 +16,8 @@ void DLL_EXPORT SOLVER::dll_load()
 */
 ///for debug C:\sor\console\bin\debug\console c:\sor\tests\test3.1.txt c:\sor\tests\test3.2.txt 0 c:\sor\tests\ans.txt
 
-void get_points(CORE::Polygons &data,vector<vector<int> > &points,vector<vector<int> > &rib_end_points,map<int,int> &szat_x,map<int,int> &szat_y)
+void get_points(CORE::Polygons &data,vector<vector<int> > &points,
+                vector<vector<pair<int,int> > > &rib_end_points,map<int,int> &szat_x,map<int,int> &szat_y)
 {
     for(int i=0;i<data.size();i++)
     {
@@ -29,10 +30,11 @@ void get_points(CORE::Polygons &data,vector<vector<int> > &points,vector<vector<
             else
             {
                 points[szat_x[data[i][j].first]].push_back(szat_y[data[i][j].second]);
+//cout<<szat_x[min(data[i][j].first,data[i][j+1].first)]<<' '<<szat_x[data[i][j].first]<<' '<<szat_y[data[i][j].second]<<' '<<szat_x[data[i][j+1].first]<<' '<<szat_y[data[i][j+1].second]<<'\n';
                 if (data[i][j].second==data[i][j+1].second)
                 {
-                    rib_end_points[szat_x[min(data[i][j].first,data[i][j+1].first)]].push_back(szat_y[data[i][j].second]);
-                    rib_end_points[szat_x[max(data[i][j].first,data[i][j+1].first)]].push_back(-szat_y[data[i][j].second]);
+                    rib_end_points[szat_x[min(data[i][j].first,data[i][j+1].first)]].push_back({1,szat_y[data[i][j].second]});
+                    rib_end_points[szat_x[max(data[i][j].first,data[i][j+1].first)]].push_back({0,szat_y[data[i][j].second]});
                 }
             }
         }
@@ -139,13 +141,16 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
     for(int i=0;i<x.size();i++) szat_x[x[i]]=i;
     for(int i=0;i<y.size();i++) szat_y[y[i]]=i;
     vector<vector<int> > points1(x.size()),points2(x.size());
-    get_points(data1,points1,szat_x,szat_y);
-    get_points(data2,points2,szat_x,szat_y);
+    vector<vector<pair<int,int> > > rib_end_points(x.size());
+    get_points(data1,points1,rib_end_points,szat_x,szat_y);
+    get_points(data2,points2,rib_end_points,szat_x,szat_y);
     for(int i=0;i<szat_x.size();i++)
     {
-        sort(points[i].begin(),points[i].end());
-        sort();
+        sort(points1[i].begin(),points1[i].end());
+        sort(points2[i].begin(),points2[i].end());
+        sort(rib_end_points[i].begin(),rib_end_points[i].end());
     }
+    map<int,int> horiz;
     int L=0;
     int R=y.size();
     vector<vector<bool> > tree1(4*R,vector<bool>(2,0)),tree2(4*R,vector<bool>(2,0));
@@ -160,27 +165,54 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
         {
             add(tree2,0,L,R,points2[i][j],points2[i][j+1],1);
         }
-        for(int j=0;j<points1[i].size();j++)
+        while(rib_end_points[i].size()&&rib_end_points[i].back().first==1)
         {
-            int mask=OP(get(tree1,0,L,R,points1[i][j]),get(tree2,0,L,R,points1[i][j]),op);
-            int c=__builtin_popcount(mask);
-            //cout<<i<<' '<<points1[i][j]<<' '<<get(tree1,0,L,R,points1[i][j])<<' '<<get(tree2,0,L,R,points1[i][j])<<'\n';
-            if (c==1||c==3||mask==5||mask==10)
+            horiz[rib_end_points[i].back().second]++;
+            rib_end_points[i].pop_back();
+        }/*
+        cout<<i<<':';
+        for(auto j:horiz)
+        {
+            cout<<j.first<<' '<<j.second<<'\n';
+        }
+        cout<<endl;*/
+        for(int j=0;j<points1[i].size();j+=2)
+        {
+            auto q=horiz.lower_bound(points1[i][j]);
+            while(q!=horiz.end()&&q->first<=points1[i][j+1])
             {
-                sx.insert({{i,points1[i][j]},mask});
-                sy.insert({{points1[i][j],i},mask});
+                int mask=OP(get(tree1,0,L,R,q->first),get(tree2,0,L,R,q->first),op);
+                //cout<<i<<' '<<q->first<<' '<<mask<<'\n';
+                int c=__builtin_popcount(mask);
+                if (c==1||c==3||mask==5||mask==10)
+                {
+                    sx.insert({{i,q->first},mask});
+                    sy.insert({{q->first,i},mask});
+                }
+                q++;
             }
         }
-        for(int j=0;j<points2[i].size();j++)
+        for(int j=0;j<points2[i].size();j+=2)
         {
-            int mask=OP(get(tree1,0,L,R,points2[i][j]),get(tree2,0,L,R,points2[i][j]),op);
-            int c=__builtin_popcount(mask);
-            //cout<<i<<' '<<points2[i][j]<<' '<<get(tree1,0,L,R,points2[i][j])<<' '<<get(tree2,0,L,R,points2[i][j])<<'\n';
-            if (c==1||c==3||mask==5||mask==10)
+            auto q=horiz.lower_bound(points2[i][j]);
+            while(q!=horiz.end()&&q->first<=points2[i][j+1])
             {
-                sx.insert({{i,points2[i][j]},mask});
-                sy.insert({{points2[i][j],i},mask});
+                int mask=OP(get(tree1,0,L,R,q->first),get(tree2,0,L,R,q->first),op);
+                //cout<<i<<' '<<q->first<<' '<<mask<<'\n';
+                int c=__builtin_popcount(mask);
+                if (c==1||c==3||mask==5||mask==10)
+                {
+                    sx.insert({{i,q->first},mask});
+                    sy.insert({{q->first,i},mask});
+                }
+                q++;
             }
+        }
+        while(rib_end_points[i].size()&&rib_end_points[i].back().first==0)
+        {
+            horiz[rib_end_points[i].back().second]--;
+            if (!horiz[rib_end_points[i].back().second]) horiz.erase(rib_end_points[i].back().second);
+            rib_end_points[i].pop_back();
         }
         for(int j=0;j<points1[i].size();j+=2)
         {
