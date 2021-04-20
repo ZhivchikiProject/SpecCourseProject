@@ -1,7 +1,7 @@
 #include "parser.h"
-#include "..\Core\Core.h"
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 using namespace std;
 
 void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
