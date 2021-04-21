@@ -21,6 +21,8 @@
 				</Compiler>
 				<Linker>
 					<Add library="user32" />
+					<Add library="../Console/bin/Debug/Core.dll" />
+					<Add library="../Console/bin/Debug/Logger.dll" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -39,6 +41,8 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="user32" />
+					<Add library="../Console/bin/Release/Core.dll" />
+					<Add library="../Console/bin/Release/Logger.dll" />
 				</Linker>
 			</Target>
 		</Build>
