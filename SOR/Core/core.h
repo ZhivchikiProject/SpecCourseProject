@@ -2,7 +2,9 @@
 #define __CORE_H__
 #include <windows.h>
 #include <vector>
+#include <set>
 #include <assert.h>
+#include <iostream>
 #include "..\Logger\logger.h"
 using namespace std;
 /*  To use this exported function of dll, include this header
@@ -49,6 +51,7 @@ namespace CORE
             }
             return pol[i];
         }
+        void normalize();
     };
     class Polygons
     {
@@ -79,6 +82,7 @@ namespace CORE
             }
             return pol[i];
         }
+        void normalize();
     };
     bool operator !=(const Polygon &x,const Polygon &y)
     {
