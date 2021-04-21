@@ -21,6 +21,8 @@
 				</Compiler>
 				<Linker>
 					<Add library="user32" />
+					<Add library="../Console/bin/Debug/Logger.dll" />
+					<Add library="../Console/bin/Debug/Core.dll" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -39,11 +41,16 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="user32" />
+					<Add library="../Console/bin/Release/Logger.dll" />
+					<Add library="../Console/bin/Release/Core.dll" />
 				</Linker>
 			</Target>
 		</Build>
 		<Unit filename="solver.cpp" />
 		<Unit filename="solver.h" />
+		<Unit filename="temp.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
