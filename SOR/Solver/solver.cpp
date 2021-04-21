@@ -114,8 +114,8 @@ int OP(int m1,int m2,int op)
 }
 void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int op)
 {
-    ///data1.normalize(); normalize need
-    ///data2.normalize();
+    data1.normalize();
+    data2.normalize();
     vector<int> x,y;
     for(int i=0;i<data1.size();i++)
     {
@@ -226,14 +226,14 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
     vector<pair<vector<pair<int,int> >,bool> > pol;/*
     for(auto j:sx)
     {
-        cout<<j.first.first<<' '<<j.first.second<<' '<<j.second<<'\n';
+        cout<<x[j.first.first]<<' '<<y[j.first.second]<<' '<<j.second<<'\n';
     }*/
     while(!sx.empty())
     {
         pair<pair<int,int>,int> x=*sx.begin();
         pair<pair<int,int>,int> y=x;
         pol.push_back(pair<vector<pair<int,int> >,bool>());
-        bool in_pol;
+        int in_pol;
         if (x.second==1)
         {
             pol[pol.size()-1].second=1;
@@ -252,13 +252,13 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             if (dir==0)
             {
                 x=*sx.lower_bound({{x.first.first,x.first.second+1},0});
-                if (__builtin_popcount(x.second)==3)
+                if ((x.second&1)^in_pol)
                 {
-                    dir=(in_pol?3:1);
+                    dir=1;
                 }
                 else
                 {
-                    dir=(in_pol?1:3);
+                    dir=3;
                 }
                 sx.erase(x);
                 sy.erase({{x.first.second,x.first.first},x.second});
@@ -273,13 +273,13 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             {
                 x=*sy.lower_bound({{x.first.second,x.first.first+1},0});
                 swap(x.first.first,x.first.second);
-                if (__builtin_popcount(x.second)==3)
+                if (((x.second&2)>>1)^in_pol)
                 {
-                    dir=(in_pol?0:2);
+                    dir=2;
                 }
                 else
                 {
-                    dir=(in_pol?2:0);
+                    dir=0;
                 }
                 sx.erase(x);
                 sy.erase({{x.first.second,x.first.first},x.second});
@@ -293,13 +293,13 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             else if (dir==2)
             {
                 x=*(--sx.lower_bound(x));
-                if (__builtin_popcount(x.second)==3)
+                if (((x.second&4)>>2)^in_pol)
                 {
-                    dir=(in_pol?1:3);
+                    dir=3;
                 }
                 else
                 {
-                    dir=(in_pol?3:1);
+                    dir=1;
                 }
                 sx.erase(x);
                 sy.erase({{x.first.second,x.first.first},x.second});
@@ -314,13 +314,13 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             {
                 x=*(--sy.lower_bound({{x.first.second,x.first.first},x.second}));
                 swap(x.first.first,x.first.second);
-                if (__builtin_popcount(x.second)==3)
+                if (((x.second&8)>>3)^in_pol)
                 {
-                    dir=(in_pol?2:0);
+                    dir=0;
                 }
                 else
                 {
-                    dir=(in_pol?0:2);
+                    dir=2;
                 }
                 sx.erase(x);
                 sy.erase({{x.first.second,x.first.first},x.second});
@@ -345,6 +345,7 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
         }
         res.add(pp);
     }
+
 }
 void DLL_EXPORT SOLVER::merge(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res)
 {
