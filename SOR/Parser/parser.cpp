@@ -2,36 +2,86 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <string>
 using namespace std;
+
+bool is_number(string& s)
+{
+    if ((s[s.size()-1] == ',') || (s[s.size()-1] == '.') || (s[s.size()-1] == ';') || (s[s.size()-1] == ':'))
+        s.resize(s.size() - 1);
+    string::const_iterator it = s.begin();
+    if (s[0] == '-') it++;
+    while (it != s.end() && isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
 
 void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 {
+    bool flag = false;
     string x, y;
 
     ifstream fin(path);
     int PolygonsCount, PointsCount;
 
     fin>>x;
-    fin>>PolygonsCount;
+
+    if (x != "Count")
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "\"Count\" needed in file: " + path);
+
+    fin>>y;
+
+     if (!is_number(y))
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "The number of boundaries needed in file: " + path);
+
+    PolygonsCount = stoi(y);
 
     for (int i=0;i<PolygonsCount;i++)
     {
-        
+
         int minX, minY, minPos = 0;
         vector<pair<int,int> > vect;
 
         CORE::Polygon pol;
 
         fin>>x;
-        fin>>PointsCount;
+
+        if (x != "Boundary")
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "\"Boundary\" needed in file: " + path);
+
+        fin>>y;
+
+        if (!is_number(y))
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "The number of points needed in "
+                                                    + to_string(i+1)+ " boundary in file: " + path);
+
+        PointsCount = stoi(y);
+
+        if (PointsCount < 5 || PointsCount%2 == 0)
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Wrong number of points in "
+                                                    + to_string(i+1)+ " boundary in file: " + path);
+
 
         for (int j=0;j<PointsCount;j++)
         {
+
             fin>>x;
+
+            if (fin.eof())
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Sudden EOF: " + path);
+
             fin>>y;
+
+            if (!is_number(x) || !is_number(y))
+                LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Error in coordinates in "
+                                                    + to_string(i+1)+ " boundary in file: " + path);
+
             pair<int,int> p(stoi(x), stoi(y));
             vect.push_back(p);
         }
+
+        if ((vect[0].first != vect.back().first)||(vect[0].second != vect.back().second))
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "The first and last point of "
+                                                    + to_string(i+1)+ " boundary are not the same in file: " + path);
 
         minX = vect[0].first;
         minY = vect[0].second;
@@ -64,6 +114,26 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
                 pol.add(vect[j]);
         }
 
+        for (int j=0; j<PointsCount-1; j++)
+        {
+            if (j%2 == 0)
+            {
+                if (vect[j].first != vect[j+1].first)
+                    flag = true;
+            }
+            else
+            {
+                if (vect[j].second != vect[j+1].second)
+                    flag = true;
+            }
+        }
+        if (flag)
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Orthogonality problems with the "
+                                                    + to_string(i+1)+ " boundary in file: " + path);
+
+
+        flag = false;
+
         res.add(pol);
     }
 
@@ -78,12 +148,14 @@ void DLL_EXPORT PARSER::write_output(string &path, CORE::Polygons &res)
 
     for(int i=0;i<res.size();i++)
     {
-        fout << "Boundary    " << res.get(i).size() << " ";
+        fout << "Boundary " << res.get(i).size()+1 << "   ";
 
         for (int j=0; j<res.get(i).size(); j++)
         {
             fout << res.get(i).get(j).first << ", " << res.get(i).get(j).second << "; ";
         }
+
+        fout << res.get(i).get(0).first << ", " << res.get(i).get(0).second << "; ";
 
         fout << endl;
     }
