@@ -40,65 +40,25 @@ void get_points(CORE::Polygons &data,vector<vector<int> > &points,
         }
     }
 }
-void add(vector<vector<bool> > &tree,int x,int L,int R,int l,int r,int pos)
+void add(vector<vector<bool> > &tree,int n,int l,int r,int pos)
 {
-    if (R==r&&L==l)
+    r--;
+    for(l+=n,r+=n;l<=r;l>>=1,r>>=1)
     {
-        tree[x][pos]=!tree[x][pos];
-        return ;
-    }
-    int c=(L+R)>>1;
-    if (tree[x][pos])
-    {
-        tree[2*x+1][pos]=!tree[2*x+1][pos];
-        tree[2*x+2][pos]=!tree[2*x+2][pos];
-        tree[x][pos]=0;
-    }
-    if (c>l)
-    {
-        add(tree,2*x+1,L,c,l,min(c,r),pos);
-    }
-    if (c<r)
-    {
-        add(tree,2*x+2,c,R,max(l,c),r,pos);
+        if (l&1) tree[l][pos]=!tree[l][pos],l++;
+        if (!(r&1)) tree[r][pos]=!tree[r][pos],r--;
     }
 }
-int get(vector<vector<bool> > &tree,int x,int L,int R,int pos)
+int get(vector<vector<bool> > &tree,int n,int pos)
 {
-    if (R-L==1)
-    {
-        if (L==pos)
-        {
-            return ((int)tree[x][1])|(((int)tree[x][0])<<3);
-        }
-        else
-        {
-            return (((int)tree[x][1])<<1)|(((int)tree[x][0])<<2);
-        }
-    }
-    int c=(L+R)>>1;
-    if (tree[x][0])
-    {
-        tree[2*x+1][0]=!tree[2*x+1][0];
-        tree[2*x+2][0]=!tree[2*x+2][0];
-        tree[x][0]=0;
-    }
-    if (tree[x][1])
-    {
-        tree[2*x+1][1]=!tree[2*x+1][1];
-        tree[2*x+2][1]=!tree[2*x+2][1];
-        tree[x][1]=0;
-    }
-    int mask=0;
-    if (c>pos-1)
-    {
-        mask|=get(tree,2*x+1,L,c,pos);
-    }
-    if (c<=pos)
-    {
-        mask|=get(tree,2*x+2,c,R,pos);
-    }
-    return mask;
+    int ans=0;
+    if (pos!=n)
+        for(int x=pos+n;x;x>>=1)
+            ans^=(((int)tree[x][1])|(((int)tree[x][0])<<3));
+    if (pos!=0)
+        for(int x=pos+n-1;x;x>>=1)
+            ans^=((((int)tree[x][1])<<1)|(((int)tree[x][0])<<2));
+    return ans;
 }
 int OP(int m1,int m2,int op)
 {
@@ -190,17 +150,17 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
     map<int,int> horiz;
     int L=0;
     int R=y.size();
-    vector<vector<bool> > tree1(4*R,vector<bool>(2,0)),tree2(4*R,vector<bool>(2,0));
+    vector<vector<bool> > tree1(2*R,vector<bool>(2,0)),tree2(2*R,vector<bool>(2,0));
     set<pair<pair<int,int>,int> > sx,sy;
     for(int i=0;i<x.size();i++)
     {
         for(int j=0;j<points1[i].size();j+=2)
         {
-            add(tree1,0,L,R,points1[i][j],points1[i][j+1],1);
+            add(tree1,R,points1[i][j],points1[i][j+1],1);
         }
         for(int j=0;j<points2[i].size();j+=2)
         {
-            add(tree2,0,L,R,points2[i][j],points2[i][j+1],1);
+            add(tree2,R,points2[i][j],points2[i][j+1],1);
         }
         while(rib_end_points[i].size()&&rib_end_points[i].back().first==1)
         {
@@ -218,7 +178,7 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             auto q=horiz.lower_bound(points1[i][j]);
             while(q!=horiz.end()&&q->first<=points1[i][j+1])
             {
-                int mask=OP(get(tree1,0,L,R,q->first),get(tree2,0,L,R,q->first),op);
+                int mask=OP(get(tree1,R,q->first),get(tree2,R,q->first),op);
                 //cout<<i<<' '<<q->first<<' '<<mask<<'\n';
                 int c=__builtin_popcount(mask);
                 if (c==1||c==3||mask==5||mask==10)
@@ -234,7 +194,7 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             auto q=horiz.lower_bound(points2[i][j]);
             while(q!=horiz.end()&&q->first<=points2[i][j+1])
             {
-                int mask=OP(get(tree1,0,L,R,q->first),get(tree2,0,L,R,q->first),op);
+                int mask=OP(get(tree1,R,q->first),get(tree2,R,q->first),op);
                 //cout<<i<<' '<<q->first<<' '<<mask<<'\n';
                 int c=__builtin_popcount(mask);
                 if (c==1||c==3||mask==5||mask==10)
@@ -253,11 +213,11 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
         }
         for(int j=0;j<points1[i].size();j+=2)
         {
-            add(tree1,0,L,R,points1[i][j],points1[i][j+1],0);
+            add(tree1,R,points1[i][j],points1[i][j+1],0);
         }
         for(int j=0;j<points2[i].size();j+=2)
         {
-            add(tree2,0,L,R,points2[i][j],points2[i][j+1],0);
+            add(tree2,R,points2[i][j],points2[i][j+1],0);
         }
     }
     vector<pair<vector<pair<int,int> >,bool> > pol;/*
