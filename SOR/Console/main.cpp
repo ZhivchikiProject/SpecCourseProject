@@ -65,7 +65,7 @@ int main(int argc,char *argv[])
         }
         temp.close();
         LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Read file with answer");
-        PARSER::read_input(path,in_2);
+        PARSER::read_input(path,valid);
         if (valid!=out_1)
         {
             LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Wrong Answer");
