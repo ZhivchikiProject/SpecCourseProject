@@ -80,7 +80,7 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
         }
 
         if ((vect[0].first != vect.back().first)||(vect[0].second != vect.back().second))
-            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "The first and last point of "
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "The first and last point of boundary in"
                                                     + to_string(i+2)+ " line are not the same in file: " + path);
 
         minX = vect[0].first;
