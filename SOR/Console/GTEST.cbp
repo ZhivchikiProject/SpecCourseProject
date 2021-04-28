@@ -48,7 +48,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="core_polygon_size.h" />
+		<Unit filename="gtest/core_polygon_size.h" />
 		<Unit filename="mainT.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
