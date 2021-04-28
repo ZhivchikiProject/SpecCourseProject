@@ -1,0 +1,20 @@
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.csprojAssemblyReference.cache
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.Form1.resources
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.Properties.Resources.resources
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.csproj.GenerateResource.cache
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.csproj.CoreCompileInputs.cache
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\bin\Debug\Visualisato.v1.exe.config
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\bin\Debug\Visualisato.v1.exe
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\bin\Debug\Visualisato.v1.pdb
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.exe
+C:\Users\vadya\source\repos\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.pdb
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\bin\Debug\Visualisato.v1.exe.config
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\bin\Debug\Visualisato.v1.exe
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\bin\Debug\Visualisato.v1.pdb
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.csprojAssemblyReference.cache
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.Form1.resources
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.Properties.Resources.resources
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.csproj.GenerateResource.cache
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.csproj.CoreCompileInputs.cache
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.exe
+C:\Users\vadya\OneDrive\Рабочий стол\Visualisato.v1\Visualisato.v1\obj\Debug\Visualisato.v1.pdb
