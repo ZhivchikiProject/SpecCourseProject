@@ -17,7 +17,6 @@ bool is_number(string& s)
 
 void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 {
-    bool flag = false;
     string x, y;
 
     ifstream fin(path);
@@ -114,26 +113,6 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
                 pol.add(vect[j]);
         }
 
-        for (int j=0; j<PointsCount-1; j++)
-        {
-            if (j%2 == 0)
-            {
-                if (vect[j].first != vect[j+1].first)
-                    flag = true;
-            }
-            else
-            {
-                if (vect[j].second != vect[j+1].second)
-                    flag = true;
-            }
-        }
-        if (flag)
-            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Orthogonality problems with the boundary in "
-                                                    + to_string(i+2)+ " line in file: " + path);
-
-
-        flag = false;
-
         res.add(pol);
     }
 
@@ -154,8 +133,6 @@ void DLL_EXPORT PARSER::write_output(string &path, CORE::Polygons &res)
         {
             fout << res.get(i).get(j).first << ", " << res.get(i).get(j).second << "; ";
         }
-
-        fout << res.get(i).get(0).first << ", " << res.get(i).get(0).second << "; ";
 
         fout << endl;
     }
