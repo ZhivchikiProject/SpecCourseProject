@@ -52,13 +52,13 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 
         if (!is_number(y))
                 LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "The number of points needed in "
-                                                    + to_string(i+1)+ " boundary in file: " + path);
+                                                    + to_string(i+2)+ " line in file: " + path);
 
         PointsCount = stoi(y);
 
         if (PointsCount < 5 || PointsCount%2 == 0)
             LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Wrong number of points in "
-                                                    + to_string(i+1)+ " boundary in file: " + path);
+                                                    + to_string(i+2)+ " line in file: " + path);
 
 
         for (int j=0;j<PointsCount;j++)
@@ -73,7 +73,7 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 
             if (!is_number(x) || !is_number(y))
                 LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Error in coordinates in "
-                                                    + to_string(i+1)+ " boundary in file: " + path);
+                                                    + to_string(i+2)+ " line in file: " + path);
 
             pair<int,int> p(stoi(x), stoi(y));
             vect.push_back(p);
@@ -81,7 +81,7 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
 
         if ((vect[0].first != vect.back().first)||(vect[0].second != vect.back().second))
             LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "The first and last point of "
-                                                    + to_string(i+1)+ " boundary are not the same in file: " + path);
+                                                    + to_string(i+2)+ " line are not the same in file: " + path);
 
         minX = vect[0].first;
         minY = vect[0].second;
@@ -128,8 +128,8 @@ void DLL_EXPORT PARSER::read_input(string &path, CORE::Polygons &res)
             }
         }
         if (flag)
-            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Orthogonality problems with the "
-                                                    + to_string(i+1)+ " boundary in file: " + path);
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error, "Orthogonality problems with the boundary in "
+                                                    + to_string(i+2)+ " line in file: " + path);
 
 
         flag = false;
