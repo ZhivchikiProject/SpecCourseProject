@@ -61,22 +61,23 @@ int main(int argc,char *argv[])
         ifstream temp(path.c_str());
         if (temp.fail())
         {
-            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect path to file with answer");
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect path to file with standard");
         }
         temp.close();
-        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Read file with answer");
+        LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Reading file with answer");
         PARSER::read_input(path,valid);
         if (valid!=out_1)
         {
-            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Wrong Answer");
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Program result doesn't match the standard");
         }
         else
         {
-            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Accepted");
+            LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Program result is correct");
         }
     }
     path=argv[4];
-    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Write answer");
+    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Writing result file");
     PARSER::write_output(path,out_1);
+    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Debug,"Program has finished work");
     return 0;
 }
