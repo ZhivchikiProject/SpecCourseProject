@@ -82,10 +82,25 @@ namespace Visualisato.v1
                 count = M[i].Count * 2 + 1 + count;
                 k = count + 4;
             }
-
             Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
+			if (radioButton1.Checked)
+			{
+				pen = new Pen(Color.Red, 10);
+			}
+			else
+			{
+				if (radioButton2.Checked)
+				{
+					pen = new Pen(Color.Green, 7);
+				}
+				else
+				{
+					pen = new Pen(Color.Blue, 5);
+				}
+			}
 
-            for (int i = 0; i < M.Count; i++)
+
+			for (int i = 0; i < M.Count; i++)
             {
                 for (int j = 0; j < M[i].Count - 2; j += 2)
                 {
