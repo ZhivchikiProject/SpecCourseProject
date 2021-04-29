@@ -10,10 +10,19 @@ void DLL_EXPORT LOGGER::dll_load()
 {
     std::cout<<"LOGGER_LOAD\n";
 }
-
 void  DLL_EXPORT LOGGER::Logger::WriteLog(LogLevel logLevel, std::string message)
 {
     std::ofstream logFile("Logfile.txt", std::ios::app);
+
+    time_t currentTime;
+    struct tm * timeInfo;
+    char buffer[30];
+    std::time (&currentTime);
+    timeInfo = localtime (&currentTime);
+    strftime (buffer, 30,"%H:%M:%S: ",timeInfo);
+    logFile << buffer;
+    if (logLevel != LogLevel::Info)
+        std::cout << buffer;
     if (logLevel == LogLevel::Info)
     {
         logFile << message << "\n";

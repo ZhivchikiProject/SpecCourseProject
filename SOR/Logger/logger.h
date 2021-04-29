@@ -30,9 +30,15 @@ namespace LOGGER
         {
             time = std::chrono::high_resolution_clock::now();
             std::ofstream logFile("Logfile.txt", std::ios::app);
+            time_t currentTime;
+            struct tm * timeInfo;
+            char buffer[30];
+            std::time (&currentTime);
+            timeInfo = localtime (&currentTime);
+            strftime (buffer, 30,"%d.%m.%Y %H:%M:%S: ",timeInfo);
             for (int i = 0; i < 60; i++)
                 logFile << "_";
-            logFile << "\n\n\nNew launch\n";
+            logFile << "\n\n\n" << buffer << "New launch\n";
             logFile.close();
         }
 
@@ -40,6 +46,7 @@ namespace LOGGER
     public:
         void operator=(const Logger l) = delete;
         static Logger* GetInstance();
+
         void DLL_EXPORT WriteLog(LogLevel logLevel, std::string message);
         void DLL_EXPORT ShowLog();
         void ResetTimer() { time = std::chrono::high_resolution_clock::now(); }
