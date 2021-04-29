@@ -179,7 +179,7 @@ namespace generator
                     tmpPoint.first = tmpPolygon[0].first;
                     tmpPolygon.push_back(tmpPoint);
 
-                    for (std::pair<int,int> point : tmpPolygon)
+                    for (std::pair<int,int> &point : tmpPolygon)
                     {
                         point.first += (areaX + minDistance) * i;
                         point.second += (areaY + minDistance) * j;
