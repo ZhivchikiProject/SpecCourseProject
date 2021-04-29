@@ -40,8 +40,8 @@ namespace LOGGER
                 logFile << "_";
             logFile << "\n\n\n" << buffer << "New launch\n";
             logFile.close();
+            std::cout << buffer << "New launch\n";
         }
-
         static Logger* logger_;
     public:
         void operator=(const Logger l) = delete;
