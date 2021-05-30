@@ -1,3 +1,4 @@
+#pragma GCC optimize("O3")
 #include "solver.h"
 #include <iostream>
 #include <algorithm>
@@ -152,6 +153,7 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
     int R=y.size();
     vector<vector<bool> > tree1(2*R,vector<bool>(2,0)),tree2(2*R,vector<bool>(2,0));
     set<pair<pair<int,int>,int> > sx,sy;
+    int count_intersect_verticles=0;
     for(int i=0;i<x.size();i++)
     {
         for(int j=0;j<points1[i].size();j+=2)
@@ -178,6 +180,7 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             auto q=horiz.lower_bound(points1[i][j]);
             while(q!=horiz.end()&&q->first<=points1[i][j+1])
             {
+                count_intersect_verticles++;
                 int mask=OP(get(tree1,R,q->first),get(tree2,R,q->first),op);
                 //cout<<i<<' '<<q->first<<' '<<mask<<'\n';
                 int c=__builtin_popcount(mask);
@@ -194,6 +197,7 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             auto q=horiz.lower_bound(points2[i][j]);
             while(q!=horiz.end()&&q->first<=points2[i][j+1])
             {
+                count_intersect_verticles++;
                 int mask=OP(get(tree1,R,q->first),get(tree2,R,q->first),op);
                 //cout<<i<<' '<<q->first<<' '<<mask<<'\n';
                 int c=__builtin_popcount(mask);
@@ -220,6 +224,7 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
             add(tree2,R,points2[i][j],points2[i][j+1],0);
         }
     }
+    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"count_intersect_verticles="+to_string(count_intersect_verticles));
     vector<pair<vector<pair<int,int> >,bool> > pol;/*
     for(auto j:sx)
     {
@@ -363,6 +368,8 @@ void unite(CORE::Polygons &data1,CORE::Polygons &data2,CORE::Polygons &res,int o
                 pair<int,int> pp={x[p.first[i].first],y[p.first[i].second]};
                 ans[cur].add(pp);
             }
+            pair<int,int> pp=ans[cur][0];
+            ans[cur].add(pp);
         }
     }
     for(auto &j:ans)
