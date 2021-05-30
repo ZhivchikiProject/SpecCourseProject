@@ -1,3 +1,4 @@
+#pragma GCC optimize("O3")
 #include <iostream>
 #include <fstream>
 #include "..\Core\Core.h"
@@ -36,6 +37,7 @@ int main(int argc,char *argv[])
     {
         LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect operation");
     }
+    LOGGER::Logger::GetInstance()->GetTime("Read complete",1);
     op=argv[3][0]-'0';
     switch(op)
     {
@@ -54,6 +56,7 @@ int main(int argc,char *argv[])
     default:
         LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Error,"Incorrect operation");
     }
+    LOGGER::Logger::GetInstance()->GetTime("Operation complete",1);
     if (argc==6)
     {
         CORE::Polygons valid;
@@ -79,5 +82,6 @@ int main(int argc,char *argv[])
     LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"Writing result file");
     PARSER::write_output(path,out_1);
     LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Debug,"Program has finished work");
+    LOGGER::Logger::GetInstance()->GetTime("Output complete",1);
     return 0;
 }
