@@ -9,6 +9,7 @@ using namespace std;
 int main(int argc,char *argv[])
 {
     CORE::Polygons in_1,in_2,out_1;
+    LOGGER::Logger::GetInstance()->WriteLog(LOGGER::LogLevel::Info,"New Launch");
     string path;
     if (argc<5)
     {
