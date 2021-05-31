@@ -37,11 +37,11 @@ namespace LOGGER
             std::time (&currentTime);
             timeInfo = localtime (&currentTime);
             strftime (buffer, 30,"%d.%m.%Y %H:%M:%S: ",timeInfo);
-            for (int i = 0; i < 60; i++)
-                logFile << "_";
-            logFile << "\n\n\n" << buffer << "New launch\n";
+         //   for (int i = 0; i < 60; i++)
+         //       logFile << "_";
+         //   logFile << "\n\n\n" << buffer << "New launch\n";
             logFile.close();
-            std::cout << buffer << "New launch\n";
+         //   std::cout << buffer << "New launch\n";
         }
         static Logger* logger_;
     public:
